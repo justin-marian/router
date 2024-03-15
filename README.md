@@ -98,43 +98,21 @@ Router application responsible for forwarding packets within a network. The rout
     - The **sender's IP and MAC addresses** are *cached* in the ARP table.
     - Any waiting packets **destined for the sender's IP** are processed and transmitted with the resolved **MAC address**.
 
-#### ARP Request
+|                | ARP Request                                                           |
+|----------------|----------------------------------------------------------------------|
+| **Step**       | **Description**                                                      |
+| Initializing Ethernet Header for ARP Requests | - Sets the Ethernet type field to ARP.<br>- Determines the source MAC address based on the router's interface.<br>- Sets the destination MAC address to broadcast. |
+| Initializing ARP Header for ARP Requests    | - Initializes various fields in the ARP header:<br>  - Hardware type<br>  - Protocol type<br>  - Operation (request)<br>  - Source and target hardware addresses (MACs)<br>  - Source protocol address. |
+| Updating Packet Length Based on Ethernet and ARP Headers | Adjusts the length of the packet buffer in the router based on the sizes of the Ethernet and ARP headers. |
+| Generating ARP Request Packet              | - Prepares an ARP request packet in the router's packet buffer.<br>- Initializes the Ethernet header for ARP requests.<br>- Initializes the ARP header for ARP requests.<br>- Updates the packet length accordingly. |
 
-- **Initializing Ethernet Header for ARP Requests:**
-  - Sets the Ethernet type field to ARP.
-  - Determines the source MAC address based on the router's interface.
-  - Sets the destination MAC address to broadcast.
-
-- **Initializing ARP Header for ARP Requests:**
-  - Initializes various fields in the ARP header:
-    - hardware type
-    - protocol type
-    - operation (request)
-    - source and target hardware addresses (MACs)
-    - source protocol address.
-
-- **Updating Packet Length Based on Ethernet and ARP Headers:**
-  - Adjusts the length of the packet buffer in the router based on the sizes of the Ethernet and ARP headers.
-
-- **Generating ARP Request Packet:**
-  - Prepares an ARP request packet in the router's packet buffer.
-  - Initializes the Ethernet header for ARP requests.
-  - Initializes the ARP header for ARP requests.
-  - Updates the packet length accordingly.
-
-#### ARP Reply
-
-- **Setting ARP Operation to ARP Reply:**
-  - Sets the ARP operation field in the ARP header to indicate an ARP reply.
-
-- **Swapping Target and Sender IP and MAC Addresses:**
-  - Exchanges the target and sender IP and MAC addresses in the ARP header.
-
-- **Setting Sender IP and MAC Addresses in ARP Header:**
-  - Assigns the sender's IP and MAC addresses to appropriate fields in the ARP header.
-
-- **Updating Ethernet Header with Appropriate MAC Addresses:**
-  - Modifies the Ethernet header in the router's packet buffer to set the appropriate source and destination MAC addresses.
+|                | ARP Reply                                                            |
+|----------------|----------------------------------------------------------------------|
+| **Step**       | **Description**                                                      |
+| Setting ARP Operation to ARP Reply         | - Sets the ARP operation field in the ARP header to indicate an ARP reply. |
+| Swapping Target and Sender IP and MAC Addresses | - Exchanges the target and sender IP and MAC addresses in the ARP header. |
+| Setting Sender IP and MAC Addresses in ARP Header | - Assigns the sender's IP and MAC addresses to appropriate fields in the ARP header. |
+| Updating Ethernet Header with Appropriate MAC Addresses | - Modifies the Ethernet header in the router's packet buffer to set the appropriate source and destination MAC addresses. |
 
 ### ICMP
 
