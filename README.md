@@ -8,8 +8,8 @@ Router application responsible for forwarding packets within a network. The rout
 
 - Network interfaces are initialized based on command-line arguments.
 - The router is initialized using the provided configuration file.
-- Packet Handling Loop, enters a loop where it continuously receives network messages on any network interface.
-- Determine the type of the received packet and calls corresponding handler functions for IPv4 packets and for ARP packets type.
+- Packet handling, enters a loop where it continuously receives network messages on any network interface.
+- Call corresponding handler function for IPv4 packets and for ARP packets type.
 - Error handling, if there's an error when receiving a message, it frees the router and exits with an error message.
 
 ### Router Forwarding
@@ -28,7 +28,7 @@ A simplified example illustrates how a new entry is inserted into the routing ta
 
 - **Routing Entry Structure:**
   - Routing entries contain information about how to reach specific destinations in a network.
-  - Each entry typically consists of a **network prefix** (**destination IP address range**), along with its attributes (**next hop** and **interface**).
+  - Consists of a **network prefix** (**destination IP address range**), and with its attributes (**next hop** and **interface**).
 
 **Insertion Process:**
 
@@ -36,7 +36,7 @@ A simplified example illustrates how a new entry is inserted into the routing ta
 - The router navigates the routing table's tree structure to find the insertion point.
 - After finding the correct position, the new entry is added while preserving the hierarchical structure.
 - Once the correct position is found, the new entry is added to the routing table, ensuring that it *maintains the hierarchical structure* based on **network prefixes**.
-- A simplified example illustrates how a new entry is inserted into the routing table represented as a prefix tree (trie).
+- Simple example illustrates how a new entry is inserted into the routing table represented as a prefix tree (trie).
 
   ```r
   Given the routing table:
