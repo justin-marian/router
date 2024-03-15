@@ -28,23 +28,20 @@ After finding the correct position, the new entry is added while **preserving th
   - If a **matching route** is found, the router forwards the packet to the next hop.
   - When **no matching route** is found ICMP messages are send, such as: `"Time Exceeded"` / `"Destination Unreachable"`, inform the sender that the packet was dropped.
 
-**Initialization and Creation:**
+- **Initialization and Creation:**
+  - During initialization, the router allocates memory for its routing table structure and initializes it.
+  - The **routing table** structure is a `prefix tree` (`trie`), with each **node** representing a (**routing entry**).
 
-- During initialization, the router allocates memory for its routing table structure and initializes it.
-- The **routing table** structure is a `prefix tree` (`trie`), with each **node** representing a (**routing entry**).
+- **Routing Entry Structure:**
+  - Routing entries contain information about how to reach specific destinations in a network.
+  - Consists of a **network prefix** (**destination IP address range**), and with its attributes (**next hop** and **interface**).
 
-**Routing Entry Structure:**
-
-- Routing entries contain information about how to reach specific destinations in a network.
-- Consists of a **network prefix** (**destination IP address range**), and with its attributes (**next hop** and **interface**).
-
-**Insertion Process:**
-
-- When adding a new routing entry, the admin typically updates the `rtable.txt` file.
-- The router navigates the routing table's tree structure to find the insertion point.
-- After finding the correct position, the new entry is added while preserving the hierarchical structure.
-- Once the correct position is found, the new entry is added to the routing table, ensuring that it *maintains the hierarchical structure* based on **network prefixes**.
-- Simple example illustrates how a new entry is inserted into the routing table represented as a prefix tree (trie).
+- **Insertion Process:**
+  - When adding a new routing entry, the admin typically updates the `rtable.txt` file.
+  - The router navigates the routing table's tree structure to find the insertion point.
+  - After finding the correct position, the new entry is added while preserving the hierarchical structure.
+  - Once the correct position is found, the new entry is added to the routing table, ensuring that it *maintains the hierarchical structure* based on **network prefixes**.
+  - Simple example illustrates how a new entry is inserted into the routing table represented as a prefix tree (trie).
 
   ```r
   Given the routing table:
@@ -79,8 +76,8 @@ After finding the correct position, the new entry is added while **preserving th
   - Inserts a new entry with the provided IP and MAC address. Checks for duplicates and expands table capacity as needed.
 - **Handling Incoming ARP Packets:**
   - Upon receiving an ARP packet, the router checks its validity and type.
-    - For ARP requests, replies with router's MAC address.
-    - For ARP replies, caches sender's IP and MAC addresses or processes waiting packets for the sender's IP with resolved MAC.
+    - ARP requests, replies with router's MAC address.
+    - ARP replies, caches sender's IP and MAC addresses or processes waiting packets for the sender's IP with resolved MAC.
 
 ### ARP Request
 
@@ -114,7 +111,7 @@ After finding the correct position, the new entry is added while **preserving th
 - **Update Ethernet Header:**
   - Modifies Ethernet header to include appropriate MAC addresses based on the router's interface.
 - **Generate ICMP Reply:**
-  - Creates an ICMP reply message: *initializes ICMP header, updates checksum, Ethernet header, and generates IPv4 header*.
+  - ICMP reply message: *initializes ICMP header, updates checksum, Ethernet header, and generates IPv4 header*.
 
 ## Setup
 
