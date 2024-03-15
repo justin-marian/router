@@ -60,9 +60,9 @@ After finding the correct position, the new entry is added while **preserving th
 
 ## Longest Prefix Match (LPM)
 
-**Algorithm Overview:**
+### Algorithm Overview
 
-`Longest Prefix Match` is used by the router to determine the **best matching route** for a given **destination IP address**.
+`Longest Prefix Match` is used by the router to determine the **best matching route** for a given **destination IP**.
 
 - When a router receives a packet, it needs to decide where to forward it based on the **destination IP** address.
 - The router looks in its routing table, with multiple entries with IP address prefixes and next-hop information.
