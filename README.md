@@ -75,9 +75,9 @@ After finding the correct position, the new entry is added while **preserving th
   - Iterates through address entries to find an entry with a specified IP.
   - Returns *the entry's index if found; otherwise, returns -1*.
 - **Inserting New ARP Table Entry:**
-  - Inserts a new entry with the provided IP and MAC address. Checks for duplicates and expands table capacity as needed.
+  - Inserts a new entry with the provided IP and MAC address. Checks for duplicates, expands table capacity.
 
-**Handling Incoming ARP Packets:**
+### Handling Incoming ARP Packets
 
 - Upon receiving an ARP packet, the router checks its validity and type.
   - `ARP requests` replies with router's MAC address.
