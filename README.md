@@ -14,10 +14,9 @@ Router application responsible for forwarding packets within a network. The rout
 
 ## Router Forwarding
 
-The router navigates the routing table's tree structure to find the insertion point.
-It compares the prefix and mask of the new entry with existing ones to determine the insertion position.
-After finding the correct position, the new entry is added while preserving the hierarchical structure.
-A simplified example illustrates how a new entry is inserted into the routing table represented as a prefix tree (trie).
+The router navigates the routing table's `prefix tree` (`trie`) structure to find the insertion point.
+It compares the **prefix and mask** of the new entry with existing ones to determine the insertion position.
+After finding the correct position, the new entry is added while **preserving the hierarchical structure**.
 
 **Packet Handling:**
 
@@ -27,7 +26,7 @@ A simplified example illustrates how a new entry is inserted into the routing ta
 
 - **Forwarding Decisions:**
   - If a **matching route** is found, the router forwards the packet to the next hop.
-  - When **no matching route** is found (e.g., `destination is unreachable` or `TTL field expires`), ICMP messages such as `"Time Exceeded"` or `"Destination Unreachable"` may be generated to inform the sender that the packet was dropped.
+  - When **no matching route** is found ICMP messages are send, such as: `"Time Exceeded"` / `"Destination Unreachable"`, inform the sender that the packet was dropped.
 
 **Initialization and Creation:**
 
@@ -86,7 +85,7 @@ A simplified example illustrates how a new entry is inserted into the routing ta
 ### ARP Request
 
 - **Initialize Ethernet Header:**
-  - Sets the Ethernet type to ARP, determines source MAC address, and sets destination MAC address to broadcast.
+  - Sets the Ethernet type to ARP, determines source MAC address, and sets destination broadcast MAC.
 - **Update Packet Length:**
   - Adjusts the packet buffer length based on Ethernet and ARP header sizes.
 - **Generate ARP Request Packet:**
@@ -115,7 +114,7 @@ A simplified example illustrates how a new entry is inserted into the routing ta
 - **Update Ethernet Header:**
   - Modifies Ethernet header to include appropriate MAC addresses based on the router's interface.
 - **Generate ICMP Reply:**
-  - Creates an ICMP reply message, initializes ICMP header, updates checksum, generates new IPv4 header, and updates Ethernet header.
+  - Creates an ICMP reply message: *initializes ICMP header, updates checksum, Ethernet header, and generates IPv4 header*.
 
 ## Setup
 
