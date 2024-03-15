@@ -19,6 +19,16 @@ It compares the prefix and mask of the new entry with existing ones to determine
 After finding the correct position, the new entry is added while preserving the hierarchical structure.
 A simplified example illustrates how a new entry is inserted into the routing table represented as a prefix tree (trie).
 
+**Packet Handling:**
+
+- **Handling Incoming Packets:**
+  - Extracts the **destination IP address** from the packet header upon receiving a packet.
+  - Performs an **LPM lookup** in the routing table to determine the **best route for forwarding**.
+
+- **Forwarding Decisions:**
+  - If a **matching route** is found, the router forwards the packet to the next hop.
+  - When **no matching route** is found (e.g., `destination is unreachable` or `TTL field expires`), ICMP messages such as `"Time Exceeded"` or `"Destination Unreachable"` may be generated to inform the sender that the packet was dropped.
+
 **Initialization and Creation:**
 
 - During initialization, the router allocates memory for its routing table structure and initializes it.
@@ -62,49 +72,50 @@ A simplified example illustrates how a new entry is inserted into the routing ta
 - The router selects the entry with the **longest matching prefix**, meaning the one that matches the most bits of the destination IP address.
 - This ensures that the router follows the **most specific route** to the destination, the router chooses the one with the `longest prefix` (i.e., the `most specific route`), improving routing efficiency and accuracy.
 
-**Packet Handling:**
-
-- **Handling Incoming Packets:**
-  - Extracts the **destination IP address** from the packet header upon receiving a packet.
-  - Performs an **LPM lookup** in the routing table to determine the **best route for forwarding**.
-
-- **Forwarding Decisions:**
-  - If a **matching route** is found, the router forwards the packet to the next hop.
-  - When **no matching route** is found (e.g., `destination is unreachable` or `TTL field expires`), ICMP messages such as `"Time Exceeded"` or `"Destination Unreachable"` may be generated to inform the sender that the packet was dropped.
-
 ## ARP
 
-**Searching for ARP Table Entry:** Iterates through address entries to find an entry with a specified IP. Returns *the entry's index if found; otherwise, returns `-1`*.
-**Inserting New ARP Table Entry:** Inserts a new entry with the provided IP and MAC address. Checks for duplicates and expands table capacity as needed.
-**Handling Incoming ARP Packets:** Upon receiving an ARP packet, checks its validity and type.
-
-- `ARP request`, replies with router's MAC address.
-- `ARP reply`: caches sender's IP and MAC addresses or processes waiting packets for the sender's IP with resolved MAC.
+- **Searching for ARP Table Entry:**
+  - Iterates through address entries to find an entry with a specified IP. Returns the entry's index if found; otherwise, returns -1.
+- **Inserting New ARP Table Entry:**
+  - Inserts a new entry with the provided IP and MAC address. Checks for duplicates and expands table capacity as needed.
+- **Handling Incoming ARP Packets:**
+  - Upon receiving an ARP packet, the router checks its validity and type.
+    - For ARP requests, replies with router's MAC address.
+    - For ARP replies, caches sender's IP and MAC addresses or processes waiting packets for the sender's IP with resolved MAC.
 
 ### ARP Request
 
-**Initializing Ethernet Header for ARP Requests:** Sets the Ethernet type field to ARP. Determines the source MAC address based on the router's interface. Sets the destination MAC address to broadcast.
-**Updating Packet Length Based on Ethernet and ARP Headers:** Adjusts the length of the packet buffer in the router based on the sizes of the Ethernet and ARP headers.
-**Generating ARP Request Packet:** Prepares an ARP request packet in the router's packet buffer. Initializes the Ethernet header for ARP requests. Updates the packet length accordingly.
+- **Initialize Ethernet Header:**
+  - Sets the Ethernet type to ARP, determines source MAC address, and sets destination MAC address to broadcast.
+- **Update Packet Length:**
+  - Adjusts the packet buffer length based on Ethernet and ARP header sizes.
+- **Generate ARP Request Packet:**
+  - Prepares an ARP request packet, initializes Ethernet header, and updates packet length.
 
 ### ARP Reply
 
-**Setting ARP Operation to ARP Reply:** Indicates an ARP reply by setting the ARP operation field in the ARP header.
-**Swapping Target and Sender IP and MAC:** Exchanges the target and sender IP and MAC addresses in the ARP header.
-**Setting Sender IP and MAC:** Assigns the sender's IP and MAC addresses to appropriate fields in the ARP header.
-**Updating Ethernet Header:** Modifies the Ethernet header to set the appropriate source and destination MAC addresses in the router's packet buffer.
+- **Set ARP Operation to Reply:**
+  - Indicates an ARP reply by setting the ARP operation field.
+- **Swap Target and Sender IP/MAC:**
+  - Exchanges target and sender IP/MAC addresses in the ARP header.
+- **Set Sender IP and MAC:**
+  - Assigns sender's IP and MAC addresses in the ARP header.
+- **Update Ethernet Header:**
+  - Modifies Ethernet header to set appropriate MAC addresses in the packet buffer.
 
 ## ICMP
 
-- **Initializing ICMP Header:** Sets the ICMP header fields within the router's packet buffer.
-  - Calculates pointers to the ICMP header and adjusts the total packet length accordingly.
-  - Copies the IP header and additional bytes if the ICMP message type is:
-    - `ICMP_TIME_EXCED`
-    - `ICMP_DEST_UNREACH`
-- **Updating ICMP Checksum:** Calculates and updates the ICMP checksum for the ICMP header in the router's packet buffer.
-- **Generating New IPv4 Header:** Prepares a new IPv4 header for ICMP messages within the router's packet buffer.
-- **Updating Ethernet Header:** Modifies the Ethernet header to include appropriate source and destination MAC addresses based on the router's interface.
-- **Generating ICMP Reply:** Creates an ICMP reply message in the router's packet buffer. Initializes the ICMP header. Updates the ICMP checksum, generates a new IPv4 header, and updates the Ethernet header.
+- **Initialize ICMP Header:**
+  - Sets ICMP header fields in the packet buffer, calculates pointers, and adjusts packet length.
+  - Copies IP header and additional bytes for specific ICMP message types.
+- **Update ICMP Checksum:**
+  - Calculates and updates the ICMP checksum in the packet buffer.
+- **Generate New IPv4 Header:**
+  - Prepares a new IPv4 header for ICMP messages.
+- **Update Ethernet Header:**
+  - Modifies Ethernet header to include appropriate MAC addresses based on the router's interface.
+- **Generate ICMP Reply:**
+  - Creates an ICMP reply message, initializes ICMP header, updates checksum, generates new IPv4 header, and updates Ethernet header.
 
 ## Setup
 
