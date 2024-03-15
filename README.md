@@ -6,14 +6,15 @@ Router application responsible for forwarding packets within a network. The rout
 
 ## Packets Processing
 
-- Network interfaces are initialized based on command-line arguments.
-- The router is initialized using the provided configuration file.
-- Packet Handling Loop, enters a loop where it continuously receives network messages on any network interface.
-- Determine the type of the received packet and calls corresponding handler functions for IPv4 packets and for ARP packets type.
-- For error handling, if there's an error when receiving a message, it frees the router and exits with an error message.
+| #   | Component         | Description                                                                                                    |
+|-----|-------------------|----------------------------------------------------------------------------------------------------------------|
+| 1.  | Router Module     | The main module encapsulates the packet forwarding logic, ARP handling, ICMP handling, and IPv4 packet processing. |
+| 2.  | Packet Structure  | Structures for packets handled by the router, including Ethernet, IP, ARP, and ICMP headers.                     |
+| 3.  | ARP Table         | Manages the Address Resolution Protocol (ARP) table, which maps IP addresses to MAC addresses for packet forwarding. |
+| 4.  | IPv4 Table        | Manages the IPv4 routing table, which contains pre-configured routing entries used for packet forwarding decisions. |
 
 1. **Router Module**: The main module encapsulates the packet forwarding logic, ARP handling, ICMP handling, and IPv4 packet processing.
-2. **Packet Structure**: Defines the structure of packets handled by the router, including Ethernet, IP, ARP, and ICMP headers.
+2. **Packet Structure**: Structures for packets handled by the router, including Ethernet, IP, ARP, and ICMP headers.
 3. **ARP Table**: Manages the Address Resolution Protocol (ARP) table, which maps IP addresses to MAC addresses for packet forwarding.
 4. **IPv4 Table**: Manages the IPv4 routing table, which contains pre-configured routing entries used for packet forwarding decisions.
 
