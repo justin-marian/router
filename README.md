@@ -14,21 +14,21 @@ Router application responsible for forwarding packets within a network. The rout
 
 ### Router Forwarding
 
+The router navigates the routing table's tree structure to find the insertion point.
+It compares the prefix and mask of the new entry with existing ones to determine the insertion position.
+After finding the correct position, the new entry is added while preserving the hierarchical structure.
+A simplified example illustrates how a new entry is inserted into the routing table represented as a prefix tree (trie).
+
 **Initialization and Creation:**
 
 - During initialization, the router allocates memory for its routing table structure and initializes it.
-- The **routing table** structure typically consists of a `prefix tree` (`trie`) data structure, with each **node** (**routing entry**).
+- The **routing table** structure is a `prefix tree` (`trie`), with each **node** representing a (**routing entry**).
 
 **Insertion of Routing Entries:**
 
 - **Routing Entry Structure:**
   - Routing entries contain information about how to reach specific destinations in a network.
-  - Each entry typically consists of a **network prefix** (**destination IP address range**), along with associated attributes (**next hop** and **interface**).
-
-The router navigates the routing table's tree structure to find the insertion point.
-It compares the prefix and mask of the new entry with existing ones to determine the insertion position.
-After finding the correct position, the new entry is added while preserving the hierarchical structure.
-A simplified example illustrates how a new entry is inserted into the routing table represented as a prefix tree (trie).
+  - Each entry typically consists of a **network prefix** (**destination IP address range**), along with its attributes (**next hop** and **interface**).
 
 **Insertion Process:**
 
@@ -63,25 +63,33 @@ A simplified example illustrates how a new entry is inserted into the routing ta
 - The **length of the prefix** represents the **number of leading bits in the IP address** that must match for the route to be considered valid.
 - By selecting the `longest matching prefix`, the router ensures that it follows the `most specific route to the destination`, which improves routing efficiency and accuracy.
 
-**Packet Handling:**
+- **Packet Handling:**
 
-- **Handling Incoming Packets:**
-  - Receive a packet, the router extracts the **destination IP address** from the packet header.
-  - Perform an **LPM lookup** in its routing table to determine the **best route for forwarding** the packet.
+  - **Handling Incoming Packets:**
+    - Extracts the **destination IP address** from the packet header upon receiving a packet.
+    - Performs an **LPM lookup** in the routing table to determine the **best route for forwarding**.
 
-- **Forwarding Decisions:**
-  - If a **matching route** is found, the `router forwards` the packet to the next hop according to the selected route.
-  - In cases where **no matching route** is found (e.g., the `destination is unreachable or the Time-to-Live (TTL) field expires`), the router may generate `ICMP messages` such as `"Time Exceeded" or "Destination Unreachable"` to inform the sender about that the packet was `dropped` (`receiver didn't get the message`).
+  - **Forwarding Decisions:**
+    - If a **matching route** is found, the router forwards the packet to the next hop.
+    - When **no matching route** is found (e.g., `destination is unreachable` or `TTL field expires`), ICMP messages such as `"Time Exceeded"` or `"Destination Unreachable"` may be generated to inform the sender that the packet was dropped.
 
 ### ARP
 
-- **Searching for ARP Table Entry** with a **specified IP address** by *iterating through the address entries*. Returns *the `index of the entry` if found; otherwise, returns `-1`*.
-- **Inserting New ARP Table Entry** containing the **provided IP address and MAC address** into the ARP table. Checks for *duplicate entries* before insertion to maintain data integrity and expands the ARP table's capacity as needed.
-- **Handling Incoming ARP Packets:** Upon receiving an ARP packet, the router checks its validity and type.
-  - If it's an `ARP request`, the router generates a reply with its **MAC address** and sends it back.
-  - If it's an `ARP reply`:
-    - The **sender's IP and MAC addresses** are *cached* in the ARP table.
-    - Any waiting packets **destined for the sender's IP** are processed and transmitted with the resolved **MAC address**.
+**Searching for ARP Table Entry:**
+
+- Iterates through address entries to find an entry with a specified IP.
+- Returns *the entry's index if found; otherwise, returns `-1`*.
+
+**Inserting New ARP Table Entry:**
+
+- Inserts a new entry with the provided IP and MAC address.
+- Checks for duplicates and expands table capacity as needed.
+
+**Handling Incoming ARP Packets:**
+
+- Upon receiving an ARP packet, checks its validity and type.
+  - If it's an ARP request, replies with router's MAC address.
+  - If it's an ARP reply: caches sender's IP and MAC addresses or processes waiting packets for the sender's IP with resolved MAC.
 
 #### ARP Request
 
@@ -91,18 +99,9 @@ A simplified example illustrates how a new entry is inserted into the routing ta
 - Determines the source MAC address based on the router's interface.
 - Sets the destination MAC address to broadcast.
 
-**Initializing ARP Header for ARP Requests:**
-
-- Initializes various fields in the ARP header:
-  - hardware type
-  - protocol type
-  - operation (request)
-  - source and target hardware addresses (MACs)
-  - source protocol address.
-
 **Updating Packet Length Based on Ethernet and ARP Headers:**
 
-Adjusts the length of the packet buffer in the router based on the sizes of the Ethernet and ARP headers.
+- Adjusts the length of the packet buffer in the router based on the sizes of the Ethernet and ARP headers.
 
 **Generating ARP Request Packet:**
 
