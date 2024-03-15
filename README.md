@@ -1,22 +1,23 @@
 # Router
 
-## Overview
+## Description
 
-Router application responsible for forwarding packets within a network. The router operates on the principle of static forwarding, where routing decisions are pre-configured and do not change dynamically based on network conditions.
+Router application responsible for forwarding packets within a network. The router operates on the principle of static forwarding, where routing decisions are pre-configured and do not change dynamically based on network conditions:
 
-## Components
+## Packets Processing
 
-Network interfaces are initialized based on command-line arguments. Then, the router is initialized using the provided configuration file.
-Packet Handling Loop, enters a loop where it continuously receives network messages on any network interface. It determines the type of the received packet and calls corresponding handler functions for IPv4 packets and for ARP packets type. For error handling, if there's an error when receiving a message, it frees the router and exits with an error message.
+- Network interfaces are initialized based on command-line arguments.
+- The router is initialized using the provided configuration file.
+- Packet Handling Loop, enters a loop where it continuously receives network messages on any network interface.
+- Determine the type of the received packet and calls corresponding handler functions for IPv4 packets and for ARP packets type.
+- For error handling, if there's an error when receiving a message, it frees the router and exits with an error message.
 
-1. **Router Module**: The main module encapsulating the router's functionality. It includes packet forwarding logic, ARP handling, ICMP handling, and IPv4 packet processing.
+1. **Router Module**: The main module encapsulates the packet forwarding logic, ARP handling, ICMP handling, and IPv4 packet processing.
 2. **Packet Structure**: Defines the structure of packets handled by the router, including Ethernet, IP, ARP, and ICMP headers.
 3. **ARP Table**: Manages the Address Resolution Protocol (ARP) table, which maps IP addresses to MAC addresses for packet forwarding.
 4. **IPv4 Table**: Manages the IPv4 routing table, which contains pre-configured routing entries used for packet forwarding decisions.
 
-## Router Forwarding
-
-Router forwarding is a fundamental function of network devices responsible for efficiently routing packets from their source to their destination within a network. It involves several key processes:
+### Router Forwarding
 
 - **Initialization and Creation:**
   - During initialization, the router allocates memory for its routing table structure and initializes it.
@@ -30,15 +31,15 @@ Router forwarding is a fundamental function of network devices responsible for e
     - Each entry typically consists of a network prefix (destination IP address range), along with associated attributes such as the next hop, interface, and routing metrics.
 
   - **Insertion Process:**
-    - When a new routing entry needs to be added to a router's routing table, it is typically inserted through either dynamic routing protocols or manual configuration by network administrators.
-    - The insertion process begins with the router traversing the tree structure of its routing table to find the appropriate position for the new entry.
+    - When a new routing entry needs to be added to a router's routing table, it is typically inserted by the admin.
+    - Begins with the router traversing the tree structure of its routing table to find the appropriate position for the new entry.
     - The router compares the prefix and mask of the new entry with existing entries in the routing table to determine the correct position for insertion.
     - Once the correct position is found, the new entry is added to the routing table, ensuring that it maintains the hierarchical structure based on network prefixes.
     - Below is a simplified example of how a new routing entry might be inserted into a routing table represented as a prefix tree (trie) data structure:
 
-    Example:
+    **Example:**
 
-    ```
+    ```r
     Given the routing table:
         - Prefix: 192.168.1.0/24, Next Hop: 10.0.0.1
         - Prefix: 10.0.0.0/8, Next Hop: 192.168.0.1
@@ -76,7 +77,7 @@ Router forwarding is a fundamental function of network devices responsible for e
   - To prevent memory leaks, the router must properly deallocate memory associated with its routing table when it is no longer needed.
   - This involves recursively traversing the tree structure of the routing table and deallocating memory for each entry.
 
-## ARP
+### ARP
 
 - **Creating a New ARP Table:**
   - Allocates memory for the ARP table structure and its address entries, ensuring dynamic memory allocation to accommodate varying entry counts.
@@ -97,7 +98,7 @@ Router forwarding is a fundamental function of network devices responsible for e
     - The sender's IP and MAC addresses are cached in the ARP table.
     - Any waiting packets destined for the sender's IP are processed and transmitted with the resolved MAC address.
 
-### ARP Request
+#### ARP Request
 
 - **Initializing Ethernet Header for ARP Requests:**
   - Sets the Ethernet type field to ARP.
@@ -105,7 +106,12 @@ Router forwarding is a fundamental function of network devices responsible for e
   - Sets the destination MAC address to broadcast.
 
 - **Initializing ARP Header for ARP Requests:**
-  - Initializes various fields in the ARP header, including hardware type, protocol type, operation (request), source and target hardware addresses, and source protocol address.
+  - Initializes various fields in the ARP header:
+    - hardware type
+    - protocol type
+    - operation (request)
+    - source and target hardware addresses (MACs)
+    - source protocol address.
 
 - **Updating Packet Length Based on Ethernet and ARP Headers:**
   - Adjusts the length of the packet buffer in the router based on the sizes of the Ethernet and ARP headers.
@@ -116,7 +122,7 @@ Router forwarding is a fundamental function of network devices responsible for e
   - Initializes the ARP header for ARP requests.
   - Updates the packet length accordingly.
 
-### ARP Reply
+#### ARP Reply
 
 - **Setting ARP Operation to ARP Reply:**
   - Sets the ARP operation field in the ARP header to indicate an ARP reply.
@@ -130,7 +136,7 @@ Router forwarding is a fundamental function of network devices responsible for e
 - **Updating Ethernet Header with Appropriate MAC Addresses:**
   - Modifies the Ethernet header in the router's packet buffer to set the appropriate source and destination MAC addresses.
 
-## ICMP
+### ICMP
 
 - **Initializing ICMP Header Fields:**
   - Sets the fields in the ICMP header within the router's packet buffer.
