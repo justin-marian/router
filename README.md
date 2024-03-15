@@ -2,7 +2,7 @@
 
 ## Description
 
-Router application responsible for forwarding packets within a network. The router operates on the principle of static forwarding, where routing decisions are pre-configured and do not change dynamically based on network conditions
+Router application responsible for forwarding packets within a network. The router operates on the principle of static forwarding, where routing decisions are pre-configured and do not change dynamically based on network conditions.
 
 ## Packets Processing
 
@@ -26,9 +26,9 @@ After finding the correct position, the new entry is added while **preserving th
 
 - **Forwarding Decisions:**
   - If a **matching route** is found, the router forwards the packet to the next hop.
-  - When **no matching route** is found ICMP messages are send, the packet was dropped because of:
-    - `"Time Exceeded"`
-    - `"Destination Unreachable"`
+  - When **no matching route** is found **ICMP messages** are send, the packet was dropped because of:
+    - `"Time Exceeded"` (TTL expiration ttl >= 1)
+    - `"Destination Unreachable"` (no available route)
 
 - **Initialization and Creation:**
   - During initialization, the router allocates memory for its routing table structure and initializes it.
@@ -62,17 +62,17 @@ After finding the correct position, the new entry is added while **preserving th
 
 **Algorithm Overview:**
 
-`LPM` (Longest Prefix Match) is used by the router to determine the **best matching route** for a given **destination IP address**.
+`Longest Prefix Match` is used by the router to determine the **best matching route** for a given **destination IP address**.
 
-- When a router receives a packet, it needs to decide where to forward it based on the destination IP address.
+- When a router receives a packet, it needs to decide where to forward it based on the **destination IP** address.
 - The router looks in its routing table, with multiple entries with IP address prefixes and next-hop information.
-- For each entry in the routing table, the router compares the destination IP address with the stored prefixes.
+- For each entry in the routing table, the router compares the **destination IP** address with the stored prefixes.
 - Router follows the **most specific route** to the destination, the router chooses the one with the `longest prefix` (`most specific route`), improving routing efficiency and accuracy.
 
 ## ARP
 
 - **Searching for ARP Table Entry:**
-  - Iterates through address entries to find an entry with a specified IP.
+  - Iterates through address entries to find an entry with a specified **IP**.
   - Returns *the entry's index if found; otherwise, returns -1*.
 - **Inserting New ARP Table Entry:**
   - Inserts a new entry with the provided IP and MAC address. Checks for duplicates, expands table capacity.
@@ -82,7 +82,7 @@ After finding the correct position, the new entry is added while **preserving th
 - Upon receiving an ARP packet, the router checks its validity and type.
   - `ARP requests` replies with router's MAC address.
   - `ARP replies` it can perform 2 functions:
-    - caches sender's IP and MAC addresses
+    - caches sender's **IP and MAC addresses**
     - processes waiting packets for the sender's IP with resolved MAC.
 
 ### ARP Request
@@ -99,11 +99,11 @@ After finding the correct position, the new entry is added while **preserving th
 - **Set ARP Operation to Reply:**
   - Indicates an ARP reply by setting the ARP operation field.
 - **Swap Target and Sender IP/MAC:**
-  - Exchanges target and sender IP/MAC addresses in the ARP header.
+  - Exchanges target and sender **IP/MAC addresses** in the ARP header.
 - **Set Sender IP and MAC:**
-  - Assigns sender's IP and MAC addresses in the ARP header.
+  - Assigns sender's **IP and MAC addresses** in the ARP header.
 - **Update Ethernet Header:**
-  - Modifies Ethernet header to set appropriate MAC addresses in the packet buffer.
+  - Modifies Ethernet header to set appropriate **MAC addresses** in the packet buffer.
 
 ## ICMP
 
@@ -113,7 +113,7 @@ After finding the correct position, the new entry is added while **preserving th
 - **Update ICMP Checksum:**
   - Calculates and updates the ICMP checksum in the packet buffer.
 - **Generate New IPv4 Header:**
-  - Prepares a new IPv4 header for ICMP messages.
+  - Prepares a new IPv4 header for **ICMP messages**.
 - **Update Ethernet Header:**
   - Modifies Ethernet header to include appropriate MAC addresses based on the router's interface.
 - **Generate ICMP Reply:**
