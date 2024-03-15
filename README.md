@@ -17,8 +17,7 @@ Router application responsible for forwarding packets within a network. The rout
 **Initialization and Creation:**
 
 - During initialization, the router allocates memory for its routing table structure and initializes it.
-- The **routing table** structure typically consists of a `prefix tree` (`trie`) data structure, with each **node** representing a **routing entry**.
-- The router returns a pointer to the initialized routing table, enabling subsequent operations.
+- The **routing table** structure typically consists of a `prefix tree` (`trie`) data structure, with each **node** (**routing entry**).
 
 **Insertion of Routing Entries:**
 
@@ -74,15 +73,8 @@ A simplified example illustrates how a new entry is inserted into the routing ta
   - If a **matching route** is found, the `router forwards` the packet to the next hop according to the selected route.
   - In cases where **no matching route** is found (e.g., the `destination is unreachable or the Time-to-Live (TTL) field expires`), the router may generate `ICMP messages` such as `"Time Exceeded" or "Destination Unreachable"` to inform the sender about that the packet was `dropped` (`receiver didn't get the message`).
 
-**Freeing Memory:**
-
-- To prevent memory leaks, the router must properly deallocate memory associated with its routing table when it is no longer needed.
-- This involves recursively traversing the tree structure of the routing table and deallocating memory for each entry.
-
 ### ARP
 
-- **Creating a New ARP Table** structure and its address entries, ensuring *dynamic memory allocation* to accommodate varying entry counts.
-- **Freeing Memory Associated with ARP Table** Frees the memory allocated for an ARP table, including its address entries, to prevent *memory leaks* and ensure efficient memory management.
 - **Searching for ARP Table Entry** with a **specified IP address** by *iterating through the address entries*. Returns *the `index of the entry` if found; otherwise, returns `-1`*.
 - **Inserting New ARP Table Entry** containing the **provided IP address and MAC address** into the ARP table. Checks for *duplicate entries* before insertion to maintain data integrity and expands the ARP table's capacity as needed.
 - **Handling Incoming ARP Packets:** Upon receiving an ARP packet, the router checks its validity and type.
@@ -128,11 +120,14 @@ Adjusts the length of the packet buffer in the router based on the sizes of the 
 
 ### ICMP
 
-- **Initializing ICMP Header Fields:** sets the fields in the ICMP header within the router's packet buffer. Calculates pointers to the ICMP header and adjusts the total packet length accordingly. Copies the IP header and additional bytes if the ICMP message type is ICMP_TIME_EXCED or ICMP_DEST_UNREACH. Sets the ICMP code and type in the ICMP header.
+- **Initializing ICMP Header Fields:** sets the fields in the ICMP header within the router's packet buffer.
+  - Calculates pointers to the ICMP header and adjusts the total packet length accordingly.
+  - Copies the IP header and additional bytes if the ICMP message type is ICMP_TIME_EXCED or ICMP_DEST_UNREACH.
 - **Updating ICMP Checksum:** calculates and updates the ICMP checksum for the ICMP header in the router's packet buffer.
 - **Generating New IPv4 Header for ICMP Messages:** prepares a new IPv4 header for ICMP messages within the router's packet buffer.
 - **Updating Ethernet Header:** modifies the Ethernet header in the router's packet buffer to include appropriate source and destination MAC addresses based on the router's interface.
-- **Generating ICMP Reply Message:** creates an ICMP reply message in the router's packet buffer. Initializes the ICMP header, updates the ICMP checksum, generates a new IPv4 header, and updates the Ethernet header.
+- **Generating ICMP Reply Message:** creates an ICMP reply message in the router's packet buffer.
+  - Initializes the ICMP header, updates the ICMP checksum, generates a new IPv4 header, and updates the Ethernet header.
 
 ## Setup
 
