@@ -24,8 +24,6 @@ A simplified example illustrates how a new entry is inserted into the routing ta
 - During initialization, the router allocates memory for its routing table structure and initializes it.
 - The **routing table** structure is a `prefix tree` (`trie`), with each **node** representing a (**routing entry**).
 
-**Insertion of Routing Entries:**
-
 - **Routing Entry Structure:**
   - Routing entries contain information about how to reach specific destinations in a network.
   - Consists of a **network prefix** (**destination IP address range**), and with its attributes (**next hop** and **interface**).
@@ -55,13 +53,13 @@ A simplified example illustrates how a new entry is inserted into the routing ta
 
 **Algorithm Overview:**
 
-- `LPM` is a key algorithm used by routers to determine the **best matching route** for a *given destination IP address*.
-- When a router receives a packet, it needs to decide where to forward it based on the *destination IP address*.
-- The router traverses its routing table, which typically consists of **multiple entries** containing **IP address prefixes and corresponding next-hop** information.
-- For each entry in the routing table, the router compares the **destination IP address with the prefixes stored in the entry**.
-- The router selects the entry with the **longest matching prefix**. This means that if multiple entries match the destination IP address, the router chooses the one with the `longest prefix` (i.e., the `most specific route`).
-- The **length of the prefix** represents the **number of leading bits in the IP address** that must match for the route to be considered valid.
-- By selecting the `longest matching prefix`, the router ensures that it follows the `most specific route to the destination`, which improves routing efficiency and accuracy.
+`LPM` (Longest Prefix Match) is a crucial algorithm used by routers to determine the **best matching route** for a given destination IP address.
+
+- When a router receives a packet, it needs to decide where to forward it based on the destination IP address.
+- The router looks through its routing table, which contains multiple entries with IP address prefixes and next-hop information.
+- For each entry in the routing table, the router compares the destination IP address with the stored prefixes.
+- The router selects the entry with the **longest matching prefix**, meaning the one that matches the most bits of the destination IP address.
+- This ensures that the router follows the **most specific route** to the destination, the router chooses the one with the `longest prefix` (i.e., the `most specific route`), improving routing efficiency and accuracy.
 
 - **Packet Handling:**
 
@@ -88,8 +86,8 @@ A simplified example illustrates how a new entry is inserted into the routing ta
 **Handling Incoming ARP Packets:**
 
 - Upon receiving an ARP packet, checks its validity and type.
-  - If it's an ARP request, replies with router's MAC address.
-  - If it's an ARP reply: caches sender's IP and MAC addresses or processes waiting packets for the sender's IP with resolved MAC.
+  - `ARP request`, replies with router's MAC address.
+  - `ARP reply`: caches sender's IP and MAC addresses or processes waiting packets for the sender's IP with resolved MAC.
 
 #### ARP Request
 
@@ -112,20 +110,20 @@ A simplified example illustrates how a new entry is inserted into the routing ta
 
 #### ARP Reply
 
-- **Setting ARP Operation to ARP Reply:** Sets the ARP operation field in the ARP header to indicate an ARP reply.
-- **Swapping Target and Sender IP and MAC Addresses:** Exchanges the target and sender IP and MAC addresses in the ARP header.
-- **Setting Sender IP and MAC Addresses in ARP Header:** Assigns the sender's IP and MAC addresses to appropriate fields in the ARP header.
-- **Updating Ethernet Header with Appropriate MAC Addresses:** Modifies the Ethernet header in the router's packet buffer to set the appropriate source and destination MAC addresses.
+- **Setting ARP Operation to ARP Reply:** Indicates an ARP reply by setting the ARP operation field in the ARP header.
+- **Swapping Target and Sender IP and MAC:** Exchanges the target and sender IP and MAC addresses in the ARP header.
+- **Setting Sender IP and MAC:** Assigns the sender's IP and MAC addresses to appropriate fields in the ARP header.
+- **Updating Ethernet Header:** Modifies the Ethernet header to set the appropriate source and destination MAC addresses in the router's packet buffer.
 
 ### ICMP
 
-- **Initializing ICMP Header Fields:** sets the fields in the ICMP header within the router's packet buffer.
+- **Initializing ICMP Header:** Sets the ICMP header fields within the router's packet buffer.
   - Calculates pointers to the ICMP header and adjusts the total packet length accordingly.
   - Copies the IP header and additional bytes if the ICMP message type is ICMP_TIME_EXCED or ICMP_DEST_UNREACH.
-- **Updating ICMP Checksum:** calculates and updates the ICMP checksum for the ICMP header in the router's packet buffer.
-- **Generating New IPv4 Header for ICMP Messages:** prepares a new IPv4 header for ICMP messages within the router's packet buffer.
-- **Updating Ethernet Header:** modifies the Ethernet header in the router's packet buffer to include appropriate source and destination MAC addresses based on the router's interface.
-- **Generating ICMP Reply Message:** creates an ICMP reply message in the router's packet buffer.
+- **Updating ICMP Checksum:** Calculates and updates the ICMP checksum for the ICMP header in the router's packet buffer.
+- **Generating New IPv4 Header:** Prepares a new IPv4 header for ICMP messages within the router's packet buffer.
+- **Updating Ethernet Header:** Modifies the Ethernet header to include appropriate source and destination MAC addresses based on the router's interface.
+- **Generating ICMP Reply:** Creates an ICMP reply message in the router's packet buffer.
   - Initializes the ICMP header, updates the ICMP checksum, generates a new IPv4 header, and updates the Ethernet header.
 
 ## Setup
