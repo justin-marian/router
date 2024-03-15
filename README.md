@@ -65,9 +65,8 @@ After finding the correct position, the new entry is added while **preserving th
 `LPM` (Longest Prefix Match) is used by the router to determine the **best matching route** for a given **destination IP address**.
 
 - When a router receives a packet, it needs to decide where to forward it based on the destination IP address.
-- The router looks through its routing table, with multiple entries with IP address prefixes and next-hop information.
+- The router looks in its routing table, with multiple entries with IP address prefixes and next-hop information.
 - For each entry in the routing table, the router compares the destination IP address with the stored prefixes.
-- The entry with the **longest matching prefix** is select, meaning the one that matches the most bits of the destination IP address.
 - Router follows the **most specific route** to the destination, the router chooses the one with the `longest prefix` (`most specific route`), improving routing efficiency and accuracy.
 
 ## ARP
@@ -77,10 +76,14 @@ After finding the correct position, the new entry is added while **preserving th
   - Returns *the entry's index if found; otherwise, returns -1*.
 - **Inserting New ARP Table Entry:**
   - Inserts a new entry with the provided IP and MAC address. Checks for duplicates and expands table capacity as needed.
-- **Handling Incoming ARP Packets:**
-  - Upon receiving an ARP packet, the router checks its validity and type.
-    - ARP requests, replies with router's MAC address.
-    - ARP replies, caches sender's IP and MAC addresses or processes waiting packets for the sender's IP with resolved MAC.
+
+**Handling Incoming ARP Packets:**
+
+- Upon receiving an ARP packet, the router checks its validity and type.
+  - `ARP requests` replies with router's MAC address.
+  - `ARP replies` it can perform 2 functions:
+    - caches sender's IP and MAC addresses
+    - processes waiting packets for the sender's IP with resolved MAC.
 
 ### ARP Request
 
@@ -118,7 +121,9 @@ After finding the correct position, the new entry is added while **preserving th
 
 ## Setup
 
-To simulate a virtual network, we will use `Mininet`. Mininet is a network simulator that uses real kernel, switch, and application code in simulation. This setup should work fine on **WSL 2**.
+To simulate a virtual network, we will use `Mininet` (network simulator that uses real kernel, switch, and app code).
+
+This setup should work fine on **WSL 2**.
 
 - Update the package index:
 
