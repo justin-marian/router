@@ -12,7 +12,7 @@ Router application responsible for forwarding packets within a network. The rout
 - Call corresponding handler function for IPv4 packets and for ARP packets type.
 - Error handling, if there's an error when receiving a message, it frees the router and exits with an error message.
 
-### Router Forwarding
+## Router Forwarding
 
 The router navigates the routing table's tree structure to find the insertion point.
 It compares the prefix and mask of the new entry with existing ones to determine the insertion position.
@@ -50,7 +50,7 @@ A simplified example illustrates how a new entry is inserted into the routing ta
       - Add the new entry to the routing table.
   ```
 
-#### Longest Prefix Match (LPM)
+## Longest Prefix Match (LPM)
 
 **Algorithm Overview:**
 
@@ -72,7 +72,7 @@ A simplified example illustrates how a new entry is inserted into the routing ta
   - If a **matching route** is found, the router forwards the packet to the next hop.
   - When **no matching route** is found (e.g., `destination is unreachable` or `TTL field expires`), ICMP messages such as `"Time Exceeded"` or `"Destination Unreachable"` may be generated to inform the sender that the packet was dropped.
 
-### ARP
+## ARP
 
 **Searching for ARP Table Entry:** Iterates through address entries to find an entry with a specified IP. Returns *the entry's index if found; otherwise, returns `-1`*.
 **Inserting New ARP Table Entry:** Inserts a new entry with the provided IP and MAC address. Checks for duplicates and expands table capacity as needed.
@@ -81,20 +81,20 @@ A simplified example illustrates how a new entry is inserted into the routing ta
 - `ARP request`, replies with router's MAC address.
 - `ARP reply`: caches sender's IP and MAC addresses or processes waiting packets for the sender's IP with resolved MAC.
 
-#### ARP Request
+### ARP Request
 
 **Initializing Ethernet Header for ARP Requests:** Sets the Ethernet type field to ARP. Determines the source MAC address based on the router's interface. Sets the destination MAC address to broadcast.
 **Updating Packet Length Based on Ethernet and ARP Headers:** Adjusts the length of the packet buffer in the router based on the sizes of the Ethernet and ARP headers.
 **Generating ARP Request Packet:** Prepares an ARP request packet in the router's packet buffer. Initializes the Ethernet header for ARP requests. Updates the packet length accordingly.
 
-#### ARP Reply
+### ARP Reply
 
 **Setting ARP Operation to ARP Reply:** Indicates an ARP reply by setting the ARP operation field in the ARP header.
 **Swapping Target and Sender IP and MAC:** Exchanges the target and sender IP and MAC addresses in the ARP header.
 **Setting Sender IP and MAC:** Assigns the sender's IP and MAC addresses to appropriate fields in the ARP header.
 **Updating Ethernet Header:** Modifies the Ethernet header to set the appropriate source and destination MAC addresses in the router's packet buffer.
 
-### ICMP
+## ICMP
 
 - **Initializing ICMP Header:** Sets the ICMP header fields within the router's packet buffer.
   - Calculates pointers to the ICMP header and adjusts the total packet length accordingly.
