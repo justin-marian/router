@@ -26,7 +26,7 @@ After finding the correct position, the new entry is added while **preserving th
 
 - **Forwarding Decisions:**
   - If a **matching route** is found, the router forwards the packet to the next hop.
-  - When **no matching route** is found ICMP messages are send, inform the sender that the packet was dropped:
+  - When **no matching route** is found ICMP messages are send, the packet was dropped because of:
     - `"Time Exceeded"`
     - `"Destination Unreachable"`
 
@@ -43,7 +43,7 @@ After finding the correct position, the new entry is added while **preserving th
   - The router navigates the routing table's tree structure to find the insertion point.
   - After finding the correct position, the new entry is added while preserving the hierarchical structure.
   - Once the correct position is found, the new entry is added to the routing table, ensuring that it *maintains the hierarchical structure* based on **network prefixes**.
-  - Simple example illustrates how a new entry is inserted into the routing table represented as a prefix tree (trie).
+  - Simple example illustrates how a new entry is inserted into the routing table represented as a `trie`.
 
   ```r
   Given the routing table:
@@ -65,7 +65,7 @@ After finding the correct position, the new entry is added while **preserving th
 `LPM` (Longest Prefix Match) is a crucial algorithm used by routers to determine the **best matching route** for a given destination IP address.
 
 - When a router receives a packet, it needs to decide where to forward it based on the destination IP address.
-- The router looks through its routing table, which contains multiple entries with IP address prefixes and next-hop information.
+- The router looks through its routing table, with multiple entries with IP address prefixes and next-hop information.
 - For each entry in the routing table, the router compares the destination IP address with the stored prefixes.
 - The router selects the entry with the **longest matching prefix**, meaning the one that matches the most bits of the destination IP address.
 - This ensures that the router follows the **most specific route** to the destination, the router chooses the one with the `longest prefix` (i.e., the `most specific route`), improving routing efficiency and accuracy.
