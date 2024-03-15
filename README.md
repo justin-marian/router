@@ -26,7 +26,9 @@ After finding the correct position, the new entry is added while **preserving th
 
 - **Forwarding Decisions:**
   - If a **matching route** is found, the router forwards the packet to the next hop.
-  - When **no matching route** is found ICMP messages are send, such as: `"Time Exceeded"` / `"Destination Unreachable"`, inform the sender that the packet was dropped.
+  - When **no matching route** is found ICMP messages are send, inform the sender that the packet was dropped:
+    - `"Time Exceeded"`
+    - `"Destination Unreachable"`
 
 - **Initialization and Creation:**
   - During initialization, the router allocates memory for its routing table structure and initializes it.
