@@ -62,18 +62,19 @@ After finding the correct position, the new entry is added while **preserving th
 
 **Algorithm Overview:**
 
-`LPM` (Longest Prefix Match) is a crucial algorithm used by routers to determine the **best matching route** for a given destination IP address.
+`LPM` (Longest Prefix Match) is used by the router to determine the **best matching route** for a given **destination IP address**.
 
 - When a router receives a packet, it needs to decide where to forward it based on the destination IP address.
 - The router looks through its routing table, with multiple entries with IP address prefixes and next-hop information.
 - For each entry in the routing table, the router compares the destination IP address with the stored prefixes.
-- The router selects the entry with the **longest matching prefix**, meaning the one that matches the most bits of the destination IP address.
-- This ensures that the router follows the **most specific route** to the destination, the router chooses the one with the `longest prefix` (i.e., the `most specific route`), improving routing efficiency and accuracy.
+- The entry with the **longest matching prefix** is select, meaning the one that matches the most bits of the destination IP address.
+- Router follows the **most specific route** to the destination, the router chooses the one with the `longest prefix` (`most specific route`), improving routing efficiency and accuracy.
 
 ## ARP
 
 - **Searching for ARP Table Entry:**
-  - Iterates through address entries to find an entry with a specified IP. Returns the entry's index if found; otherwise, returns -1.
+  - Iterates through address entries to find an entry with a specified IP.
+  - Returns *the entry's index if found; otherwise, returns -1*.
 - **Inserting New ARP Table Entry:**
   - Inserts a new entry with the provided IP and MAC address. Checks for duplicates and expands table capacity as needed.
 - **Handling Incoming ARP Packets:**
